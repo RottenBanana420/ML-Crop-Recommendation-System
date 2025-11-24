@@ -205,3 +205,22 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ML Project Specific
+# Trained models
+models/*.pkl
+models/*.joblib
+models/*.h5
+models/*.pt
+models/*.pth
+models/*.onnx
+
+# Processed data (keep raw data in version control if small)
+data/processed/
+
+# Log files
+logs/
+*.log
+
+# Jupyter notebook checkpoints (already covered above but being explicit)
+notebooks/.ipynb_checkpoints/
