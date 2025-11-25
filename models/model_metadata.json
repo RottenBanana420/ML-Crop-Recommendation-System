@@ -1,0 +1,43 @@
+{
+  "model_type": "RandomForestClassifier",
+  "training_date": "2025-11-24T17:55:26.301723",
+  "hyperparameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "class_weight": null,
+    "criterion": "entropy",
+    "max_depth": 40,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 1,
+    "min_samples_split": 10,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 200,
+    "n_jobs": null,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "metrics": {
+    "cv_best_score": 0.99375,
+    "cv_std": 0.004175266607016763,
+    "tuning_time": 60.561978816986084,
+    "training_time": 0.8158867359161377,
+    "train_accuracy": 1.0,
+    "test_accuracy": 0.9931818181818182,
+    "accuracy_gap": 0.006818181818181834,
+    "test_precision_macro": 0.9935064935064936,
+    "test_precision_weighted": 0.9935064935064934,
+    "test_recall_macro": 0.993181818181818,
+    "test_recall_weighted": 0.9931818181818182,
+    "test_f1_macro": 0.9931775541531639,
+    "test_f1_weighted": 0.9931775541531639,
+    "cv_mean": 0.9920454545454545
+  },
+  "feature_count": 22,
+  "class_count": 22
+}
