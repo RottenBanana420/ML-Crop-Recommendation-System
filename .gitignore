@@ -224,3 +224,4 @@ logs/
 
 # Jupyter notebook checkpoints (already covered above but being explicit)
 notebooks/.ipynb_checkpoints/
+.DS_Store
