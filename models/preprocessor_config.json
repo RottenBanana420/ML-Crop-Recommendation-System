@@ -1,0 +1,16 @@
+{
+  "test_size": 0.2,
+  "random_state": 42,
+  "scaling_method": "standard",
+  "apply_log_to_rainfall": true,
+  "original_features": [
+    "N",
+    "P",
+    "K",
+    "temperature",
+    "humidity",
+    "ph",
+    "rainfall"
+  ],
+  "target_column": "label"
+}
