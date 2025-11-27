@@ -206,8 +206,11 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# ML Project Specific
-# Trained models
+# ============================================================================
+# ML Project Specific - Crop Recommendation System
+# ============================================================================
+
+# Trained Models (large binary files - should not be in version control)
 models/*.pkl
 models/*.joblib
 models/*.h5
@@ -215,13 +218,132 @@ models/*.pt
 models/*.pth
 models/*.onnx
 
-# Processed data (keep raw data in version control if small)
-data/processed/
+# Model Metadata and Metrics (keep these for documentation)
+# These are small JSON files that document model performance
+# Uncomment the following lines if you want to exclude them:
+# models/*_metadata.json
+# models/*_metrics.json
+# models/feature_importance.json
+# models/preprocessor_config.json
 
-# Log files
+# Model Comparison Reports (generated files - can be regenerated)
+models/comparison_report.html
+models/model_comparison.json
+models/model_comparison.md
+
+# Model Comparison Visualizations (generated files - can be regenerated)
+models/comparison_visualizations/
+models/comparison_visualizations/*.png
+models/comparison_visualizations/*.jpg
+models/comparison_visualizations/*.svg
+
+# Data Directories
+# Processed data (can be regenerated from raw data)
+data/processed/
+data/processed/*.csv
+data/processed/*.parquet
+data/processed/*.feather
+
+# Data visualizations (can be regenerated)
+data/visualizations/
+data/visualizations/*.png
+data/visualizations/*.jpg
+data/visualizations/*.svg
+data/visualizations/*.pdf
+
+# Data insights (can be regenerated)
+data/insights/
+data/insights/*.json
+
+# Keep raw data in version control if it's small and doesn't contain sensitive info
+# Uncomment the following if your raw data is large or sensitive:
+# data/raw/
+# data/raw/*.csv
+
+# Log Files
 logs/
+logs/*.log
+logs/*.txt
 *.log
 
-# Jupyter notebook checkpoints (already covered above but being explicit)
+# Jupyter Notebooks
+# Notebook checkpoints (already covered above but being explicit)
 notebooks/.ipynb_checkpoints/
+notebooks/**/.ipynb_checkpoints/
+
+# Notebook outputs (uncomment if you want to exclude notebook outputs)
+# notebooks/*.html
+# notebooks/*.pdf
+
+# macOS System Files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary Files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Coverage Reports (HTML version - can be regenerated)
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Pytest Cache
+.pytest_cache/
+.pytest_cache/**
+
+# Python Cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments (project-specific)
+crop-recommendation-env/
+venv/
+env/
+
+# Temporary README Update Summary (remove after review)
+README_UPDATE_SUMMARY.md
+
+# Secrets and Environment Variables (CRITICAL - never commit these!)
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+secrets/
+config/secrets.yaml
+config/credentials.json
+
+# Database Files (if any)
+*.db
+*.sqlite
+*.sqlite3
+
+# Large Files (anything over 100MB should not be in git)
+# Use Git LFS if you need to version control large files
+*.tar
+*.tar.gz
+*.zip
+*.7z
+*.rar
+cleanup_git_tracked_files.sh
+GITIGNORE_UPDATE_SUMMARY.md

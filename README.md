@@ -1,10 +1,10 @@
 # Crop Recommendation System
 
-A comprehensive machine learning project for recommending optimal crops based on soil and environmental conditions using Random Forest classification.
+A comprehensive machine learning project for recommending optimal crops based on soil and environmental conditions using advanced ensemble learning techniques.
 
 ## Overview
 
-This project analyzes soil nutrient levels (N, P, K) and environmental factors (temperature, humidity, pH, rainfall) to recommend the most suitable crop from 22 different crop types. The system achieves **99.3% test accuracy** using a Random Forest classifier with optimized hyperparameters.
+This project analyzes soil nutrient levels (N, P, K) and environmental factors (temperature, humidity, pH, rainfall) to recommend the most suitable crop from 22 different crop types. The system implements and compares **Random Forest** and **XGBoost** classifiers, achieving **99.3% test accuracy** with the production-selected Random Forest model. The project includes systematic model comparison with multi-criteria decision analysis to select the optimal model for deployment.
 
 ## Dataset
 
@@ -41,7 +41,12 @@ ML-Crop-Recommendation-System/
 │   ├── models/
 │   │   ├── __init__.py
 │   │   ├── random_forest_model.py           # Random Forest classifier
-│   │   └── visualize_model_performance.py   # Model visualization
+│   │   ├── xgboost_model.py                 # XGBoost classifier
+│   │   ├── model_comparison.py              # Model comparison framework
+│   │   ├── comparison_visualizations.py     # Comparison visualizations
+│   │   ├── comparison_report.py             # HTML report generation
+│   │   ├── visualize_model_performance.py   # Model visualization
+│   │   └── xgboost_visualizations.py        # XGBoost-specific visualizations
 │   └── utils/                  # Utility functions
 ├── tests/
 │   ├── __init__.py
@@ -49,14 +54,32 @@ ML-Crop-Recommendation-System/
 │   ├── test_data_loader.py              # Data loader tests
 │   ├── test_eda.py                      # EDA tests
 │   ├── test_preprocessing.py            # Preprocessing tests
-│   └── test_random_forest_model.py      # Model tests
+│   ├── test_random_forest_model.py      # Random Forest tests
+│   ├── test_xgboost_model.py            # XGBoost tests
+│   └── test_model_comparison.py         # Model comparison tests
 ├── models/                     # Saved model files and metadata
 │   ├── random_forest_model.pkl
+│   ├── xgboost_model.pkl
+│   ├── production_model.pkl             # Selected production model
 │   ├── scaler.pkl
 │   ├── label_encoder.pkl
 │   ├── model_metadata.json
+│   ├── xgboost_metadata.json
+│   ├── production_model_metadata.json
 │   ├── feature_importance.json
-│   └── full_metrics.json
+│   ├── xgboost_feature_importance.json
+│   ├── full_metrics.json
+│   ├── xgboost_full_metrics.json
+│   ├── model_comparison.json            # Detailed comparison metrics
+│   ├── model_comparison.md              # Human-readable comparison report
+│   ├── comparison_report.html           # Interactive HTML report
+│   └── comparison_visualizations/       # Comparison charts
+│       ├── radar_chart.png
+│       ├── per_class_heatmap.png
+│       ├── confusion_matrices.png
+│       ├── inference_time_distribution.png
+│       ├── feature_importance_correlation.png
+│       └── performance_efficiency_scatter.png
 ├── notebooks/                  # Jupyter notebooks
 ├── logs/                       # Log files
 ├── requirements.txt
@@ -80,8 +103,9 @@ ML-Crop-Recommendation-System/
 - **Composite Indicators**: Growing condition index and moisture stress index
 - **Total Features**: 22 engineered features from 7 original features
 
-### 🤖 Machine Learning Model
-- **Algorithm**: Random Forest Classifier
+### 🤖 Machine Learning Models
+
+#### Random Forest Classifier
 - **Hyperparameter Tuning**: RandomizedSearchCV with 5-fold cross-validation
 - **Performance**: 99.3% test accuracy, 99.2% cross-validation score
 - **Optimized Parameters**:
@@ -91,20 +115,63 @@ ML-Crop-Recommendation-System/
   - criterion: entropy
 - **Feature Importance**: Detailed analysis of feature contributions
 
+#### XGBoost Classifier
+- **Hyperparameter Tuning**: RandomizedSearchCV with 5-fold cross-validation
+- **Performance**: 99.1% test accuracy, 99.0% cross-validation score
+- **Optimized Parameters**:
+  - n_estimators: 200
+  - max_depth: 6
+  - learning_rate: 0.1
+  - subsample: 0.8
+- **Feature Importance**: Gain-based feature importance analysis
+
+### 🔬 Model Comparison Framework
+- **Multi-Criteria Decision Analysis**: Systematic comparison across accuracy, speed, memory, and stability
+- **Statistical Significance Testing**: McNemar's test for accuracy differences
+- **Production Readiness Criteria**:
+  - Minimum 97.5% test accuracy
+  - All per-class F1-scores ≥ 95%
+  - Inference latency < 100ms per 1000 samples
+  - Model size < 50MB
+- **Comprehensive Metrics**:
+  - Per-class precision, recall, F1-score
+  - Matthews Correlation Coefficient (MCC)
+  - Cohen's Kappa
+  - Inference latency percentiles (P50, P95, P99)
+  - Memory footprint analysis
+- **Automated Model Selection**: Intelligent selection based on balanced performance characteristics
+- **Interactive HTML Report**: Detailed comparison with visualizations
+
 ### 📊 Visualizations
+
+#### Data Analysis Visualizations
 - Distribution plots for all features
 - Box plots for outlier detection
 - Correlation heatmap
 - Crop distribution analysis
 - Crop-wise feature violin plots
 - Pair plots for feature relationships
-- Model performance metrics (confusion matrix, ROC curves, etc.)
+
+#### Model Performance Visualizations
+- Confusion matrices for both models
+- ROC curves and precision-recall curves
+- Feature importance charts
+
+#### Model Comparison Visualizations
+- **Radar Chart**: Multi-metric performance comparison
+- **Per-Class Heatmap**: F1 scores across all 22 crop types
+- **Confusion Matrix Comparison**: Side-by-side confusion matrices
+- **Inference Time Distribution**: Box plots of prediction latencies
+- **Feature Importance Correlation**: Correlation between model feature rankings
+- **Performance-Efficiency Scatter**: Accuracy vs speed trade-off analysis
 
 ### ✅ Robust Testing
-- 140+ comprehensive tests
+- **200+ comprehensive tests** across all modules
 - Test-driven development approach
 - High code coverage across all modules
 - Edge case handling and validation
+- Model comparison validation tests
+- Production readiness criteria tests
 
 ### 💾 Model Persistence
 - Trained model saved with joblib
@@ -230,6 +297,8 @@ X_train, X_test, y_train, y_test = preprocessor.fit_transform(df)
 
 ### 4. Model Training & Prediction
 
+#### Training Random Forest Model
+
 ```python
 from src.models.random_forest_model import CropRecommendationModel
 
@@ -253,14 +322,72 @@ print(f"Test Accuracy: {metrics['test_accuracy']:.4f}")
 model.save_model('models/')
 ```
 
+#### Training XGBoost Model
+
+```python
+from src.models.xgboost_model import XGBoostCropModel
+
+# Initialize model
+xgb_model = XGBoostCropModel(random_state=42)
+
+# Load preprocessed data
+X_train, X_test, y_train, y_test = xgb_model.load_data('data/processed')
+
+# Tune hyperparameters (optional)
+best_params = xgb_model.tune_hyperparameters(X_train, y_train)
+
+# Train model
+xgb_model.train(X_train, y_train, use_best_params=True)
+
+# Evaluate model
+metrics = xgb_model.evaluate(X_train, y_train, X_test, y_test)
+print(f"Test Accuracy: {metrics['test_accuracy']:.4f}")
+
+# Save model
+xgb_model.save_model('models/', prefix='xgboost')
+```
+
+#### Comparing Models
+
+```python
+from src.models.model_comparison import ModelComparison
+
+# Initialize comparison framework
+comparison = ModelComparison(
+    models_dir='models/',
+    output_dir='models/'
+)
+
+# Load both models
+comparison.load_models()
+
+# Run comprehensive comparison
+results = comparison.compare_models(X_test, y_test)
+
+# Generate visualizations
+comparison.create_comparison_visualizations()
+
+# Generate HTML report
+comparison.generate_html_report()
+
+# Get selected production model
+selected_model = comparison.select_production_model()
+print(f"Selected Model: {selected_model}")
+
+# Access comparison results
+print(f"Accuracy Difference: {results['accuracy_difference']:.4f}")
+print(f"Statistical Significance: p={results['mcnemar_p_value']:.4f}")
+print(f"Production Ready: {results['production_ready']}")
+```
+
 ### 5. Making Predictions
 
 ```python
 import joblib
 import numpy as np
 
-# Load trained model
-model = joblib.load('models/random_forest_model.pkl')
+# Load production model (automatically selected best model)
+model = joblib.load('models/production_model.pkl')
 scaler = joblib.load('models/scaler.pkl')
 label_encoder = joblib.load('models/label_encoder.pkl')
 
@@ -272,6 +399,11 @@ new_data_scaled = scaler.transform(new_data)
 prediction = model.predict(new_data_scaled)
 crop_name = label_encoder.inverse_transform(prediction)
 print(f"Recommended crop: {crop_name[0]}")
+
+# Get prediction probabilities
+probabilities = model.predict_proba(new_data_scaled)
+confidence = probabilities.max()
+print(f"Confidence: {confidence:.2%}")
 ```
 
 ## Running Tests
@@ -299,19 +431,27 @@ pytest tests/test_eda.py -v
 # Preprocessing tests
 pytest tests/test_preprocessing.py -v
 
-# Model tests
+# Random Forest model tests
 pytest tests/test_random_forest_model.py -v
+
+# XGBoost model tests
+pytest tests/test_xgboost_model.py -v
+
+# Model comparison tests
+pytest tests/test_model_comparison.py -v
 ```
 
 ### Test Coverage Summary
-- **Total Tests**: 140+ comprehensive tests
-- **Test Modules**: 4 (data loader, EDA, preprocessing, model)
+- **Total Tests**: 200+ comprehensive tests
+- **Test Modules**: 6 (data loader, EDA, preprocessing, Random Forest, XGBoost, model comparison)
 - **Coverage**: High coverage across all modules
 - **Test Categories**:
   - Data loading and validation (54 tests)
   - EDA completeness and accuracy (40+ tests)
   - Preprocessing and feature engineering (30+ tests)
-  - Model training, evaluation, and persistence (20+ tests)
+  - Random Forest training and evaluation (20+ tests)
+  - XGBoost training and evaluation (25+ tests)
+  - Model comparison and selection (30+ tests)
 
 ## Dependencies
 
@@ -346,14 +486,22 @@ This project follows a systematic machine learning pipeline:
    - Apply scaling and encoding
    - Split data with stratification
 
-4. **Model Training** (`src/models/random_forest_model.py`)
-   - Hyperparameter tuning with cross-validation
-   - Train optimized Random Forest model
+4. **Model Training** (`src/models/`)
+   - **Random Forest**: Hyperparameter tuning with cross-validation
+   - **XGBoost**: Hyperparameter tuning with cross-validation
+   - Train optimized models
    - Evaluate performance metrics
 
-5. **Model Persistence** (`models/`)
-   - Save trained model and preprocessors
+5. **Model Comparison** (`src/models/model_comparison.py`)
+   - Systematic comparison across multiple criteria
+   - Statistical significance testing
+   - Production readiness validation
+   - Automated model selection
+
+6. **Model Persistence** (`models/`)
+   - Save trained models and preprocessors
    - Store metadata and feature importance
+   - Save production-selected model
    - Enable reproducible predictions
 
 ### Adding New Features
@@ -381,22 +529,87 @@ This project follows a **test-first** approach:
 
 ## Model Performance
 
-### Current Results (Random Forest)
+### Production Model: Random Forest ✓
+
+**Selected based on**: Multi-criteria decision analysis with balanced consideration of accuracy, speed, size, and stability.
+
+#### Performance Metrics
 - **Test Accuracy**: 99.32%
 - **Training Accuracy**: 100.00%
 - **Cross-Validation Score**: 99.20% (±0.42%)
-- **Precision (Macro)**: 99.35%
-- **Recall (Macro)**: 99.32%
-- **F1-Score (Macro)**: 99.32%
+- **Precision (Weighted)**: 99.35%
+- **Recall (Weighted)**: 99.32%
+- **F1-Score (Weighted)**: 99.32%
+- **Matthews Correlation Coefficient**: 99.29%
+- **Cohen's Kappa**: 99.29%
 
-### Top Feature Importance
-1. Rainfall
-2. Potassium (K)
-3. Phosphorus (P)
-4. Humidity
-5. Temperature
+#### Efficiency Metrics
+- **Training Time**: 0.82s
+- **Prediction Time**: 8.56ms (1000 samples)
+- **P50 Latency**: 8.49ms
+- **P95 Latency**: 9.04ms
+- **P99 Latency**: 9.20ms
+- **Model Size**: 4.76 MB
 
-*Note: Feature importance includes both original and engineered features*
+#### Top Feature Importance
+1. Humidity (11.35%)
+2. Potassium - K (10.53%)
+3. Rainfall (log) (7.43%)
+4. Moisture Index (6.96%)
+5. Rainfall × Humidity Interaction (6.90%)
+
+### XGBoost Model (Alternative)
+
+#### Performance Metrics
+- **Test Accuracy**: 99.09%
+- **Training Accuracy**: 100.00%
+- **Cross-Validation Score**: 99.03% (±0.53%)
+- **Precision (Weighted)**: 99.15%
+- **Recall (Weighted)**: 99.09%
+- **F1-Score (Weighted)**: 99.09%
+- **Matthews Correlation Coefficient**: 99.05%
+- **Cohen's Kappa**: 99.05%
+
+#### Efficiency Metrics
+- **Training Time**: 4.33s
+- **Prediction Time**: 3.18ms (1000 samples)
+- **P50 Latency**: 3.10ms
+- **P95 Latency**: 3.60ms
+- **P99 Latency**: 4.07ms
+- **Model Size**: 5.07 MB
+
+#### Top Feature Importance
+1. Rainfall (log) (12.10%)
+2. Potassium - K (7.74%)
+3. N:K Ratio (7.58%)
+4. Rainfall (6.92%)
+5. Moisture Index (6.67%)
+
+### Model Comparison Summary
+
+| Metric | Random Forest | XGBoost | Winner |
+|--------|---------------|---------|--------|
+| **Test Accuracy** | 99.32% | 99.09% | Random Forest |
+| **Training Speed** | 0.82s | 4.33s | Random Forest (5.3x faster) |
+| **Prediction Speed** | 8.56ms | 3.18ms | XGBoost (2.7x faster) |
+| **Model Size** | 4.76 MB | 5.07 MB | Random Forest |
+| **Cross-Val Stability** | ±0.42% | ±0.53% | Random Forest |
+| **Statistical Significance** | - | p=1.00 | Not significant |
+
+**Key Findings**:
+- Random Forest has slightly higher accuracy (0.23% difference)
+- XGBoost is faster at inference but slower at training
+- Accuracy difference is not statistically significant (McNemar's test)
+- Both models meet all production readiness criteria
+- Random Forest selected for balanced performance characteristics
+
+### Production Readiness Criteria ✓
+
+All criteria met for production deployment:
+- ✅ Test Accuracy ≥ 97.5%: **99.32%**
+- ✅ All Per-Class F1-Scores ≥ 95%: **Minimum 97.44%**
+- ✅ Inference Latency < 100ms/1000 samples: **8.56ms**
+- ✅ Model Size < 50MB: **4.76 MB**
 
 ## Future Enhancements
 
@@ -405,21 +618,31 @@ This project follows a **test-first** approach:
 - [x] Exploratory Data Analysis
 - [x] Feature engineering pipeline
 - [x] Random Forest model implementation
-- [x] Hyperparameter tuning
+- [x] XGBoost model implementation
+- [x] Hyperparameter tuning for both models
 - [x] Model evaluation and visualization
-- [x] Comprehensive testing suite
-- [x] Model persistence
+- [x] Systematic model comparison framework
+- [x] Production model selection with multi-criteria analysis
+- [x] Comprehensive testing suite (200+ tests)
+- [x] Model persistence and metadata storage
+- [x] Interactive HTML comparison reports
 
-### Planned 🚀
-- [ ] Additional ML models (XGBoost, LightGBM, Neural Networks)
-- [ ] Model ensemble and stacking
+### In Progress 🔄
 - [ ] REST API for predictions (Flask/FastAPI)
 - [ ] Web interface for user-friendly predictions
+
+### Planned 🚀
+- [ ] Additional ML models (LightGBM, Neural Networks)
+- [ ] Model ensemble and stacking
+- [ ] A/B testing framework for model deployment
+- [ ] Real-time model performance monitoring
+- [ ] Automated model retraining pipeline
 - [ ] Docker containerization
-- [ ] Model deployment (cloud platforms)
-- [ ] Real-time prediction service
-- [ ] Model monitoring and retraining pipeline
+- [ ] Cloud deployment (AWS/GCP/Azure)
 - [ ] Mobile application integration
+- [ ] Explainable AI (SHAP/LIME) for prediction interpretability
+- [ ] Multi-language support for global deployment
+- [ ] Integration with IoT sensors for real-time soil data
 
 ## Environment
 
