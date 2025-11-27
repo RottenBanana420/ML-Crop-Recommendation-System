@@ -1,0 +1,20 @@
+{
+  "selected_model": "Random Forest",
+  "selection_rationale": "Accuracy difference is small (0.23%). Selected based on balanced consideration of speed, size, and stability.",
+  "production_ready": true,
+  "meets_accuracy_threshold": true,
+  "meets_per_class_threshold": true,
+  "meets_latency_threshold": true,
+  "meets_size_threshold": true,
+  "statistical_significance": "McNemar's test p-value: 1.0000",
+  "statistical_analysis": "The accuracy difference is not statistically significant (p=\u22650.05).",
+  "deployment_recommendation": "Deploy Random Forest to production. All production readiness criteria met.",
+  "production_model_path": "/Users/kusaihajuri/Projects/ML-Crop-Recommendation-System/models/production_model.pkl",
+  "mcnemar_test": {
+    "statistic": 0.0,
+    "p_value": 1.0,
+    "significant": false,
+    "n01": 3,
+    "n10": 2
+  }
+}
