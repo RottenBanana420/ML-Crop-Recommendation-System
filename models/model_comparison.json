@@ -1,0 +1,123 @@
+{
+  "accuracy_comparison": {
+    "xgboost": {
+      "test_accuracy": 0.990909090909091,
+      "train_accuracy": 1.0,
+      "accuracy_gap": 0.009090909090909038,
+      "f1_weighted": 0.990894856106666,
+      "precision_weighted": 0.9915387642660369,
+      "recall_weighted": 0.990909090909091
+    },
+    "random_forest": {
+      "test_accuracy": 0.9931818181818182,
+      "train_accuracy": 1.0,
+      "accuracy_gap": 0.006818181818181834,
+      "f1_weighted": 0.9931775541531639,
+      "precision_weighted": 0.9935064935064934,
+      "recall_weighted": 0.9931818181818182
+    }
+  },
+  "speed_comparison": {
+    "xgboost": {
+      "training_time": 4.33103609085083,
+      "tuning_time": 20.737682819366455,
+      "prediction_time": 0.003200054168701172,
+      "total_time": 25.068718910217285
+    },
+    "random_forest": {
+      "training_time": 0.8158867359161377,
+      "tuning_time": 60.561978816986084,
+      "prediction_time": 0.0088897705078125,
+      "total_time": 61.37786555290222
+    }
+  },
+  "memory_comparison": {
+    "xgboost": {
+      "model_size_mb": 5.074700355529785
+    },
+    "random_forest": {
+      "model_size_mb": 4.75612735748291
+    }
+  },
+  "cross_validation_comparison": {
+    "xgboost": {
+      "cv_mean": 0.990340909090909,
+      "cv_std": 0.00526910141789529,
+      "cv_scores": [
+        0.9914772727272727,
+        0.9829545454545454,
+        0.9943181818181818,
+        0.9971590909090909,
+        0.9857954545454546
+      ]
+    },
+    "random_forest": {
+      "cv_mean": 0.9920454545454545,
+      "cv_std": 0.004175266607016763,
+      "cv_scores": [
+        0.9943181818181818,
+        0.9886363636363636,
+        0.9971590909090909,
+        0.9943181818181818,
+        0.9857954545454546
+      ]
+    }
+  },
+  "feature_importance_comparison": {
+    "xgboost": {
+      "top_5_features": [
+        [
+          "rainfall_log",
+          0.12101606279611588
+        ],
+        [
+          "K",
+          0.07742929458618164
+        ],
+        [
+          "N_to_K_ratio",
+          0.07581596821546555
+        ],
+        [
+          "rainfall",
+          0.06922124326229095
+        ],
+        [
+          "moisture_index",
+          0.06667313724756241
+        ]
+      ]
+    },
+    "random_forest": {
+      "top_5_features": [
+        [
+          "humidity",
+          0.11347432888334089
+        ],
+        [
+          "K",
+          0.10528136846928089
+        ],
+        [
+          "rainfall_log",
+          0.07432045385077023
+        ],
+        [
+          "moisture_index",
+          0.06959690396827962
+        ],
+        [
+          "rainfall_humidity_interaction",
+          0.06901506755569047
+        ]
+      ]
+    }
+  },
+  "summary": {
+    "accuracy_winner": "Random Forest",
+    "speed_winner": "XGBoost",
+    "memory_winner": "Random Forest",
+    "stability_winner": "Random Forest",
+    "overall_recommendation": "Random Forest"
+  }
+}
