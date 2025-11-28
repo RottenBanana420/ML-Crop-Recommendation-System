@@ -25,6 +25,6 @@ if __name__ == '__main__':
     # Run development server
     app.run(
         host='0.0.0.0',
-        port=5001,  # Changed from 5000 to avoid macOS AirPlay Receiver
+        port=5001,  
         debug=app.config['DEBUG']
     )
