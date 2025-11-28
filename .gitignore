@@ -211,31 +211,40 @@ __marimo__/
 # ============================================================================
 
 # Trained Models (large binary files - should not be in version control)
+# These files are typically 5-10MB+ and should be stored in model registries
 models/*.pkl
 models/*.joblib
 models/*.h5
 models/*.pt
 models/*.pth
 models/*.onnx
+models/*.model
+models/*.bin
 
-# Model Metadata and Metrics (keep these for documentation)
-# These are small JSON files that document model performance
-# Uncomment the following lines if you want to exclude them:
-# models/*_metadata.json
-# models/*_metrics.json
-# models/feature_importance.json
-# models/preprocessor_config.json
+# Model Metadata and Metrics (generated files - can be regenerated)
+# These JSON files document model performance and are generated during training
+models/*_metadata.json
+models/*_metrics.json
+models/feature_importance.json
+models/feature_names.json
+models/full_metrics.json
+models/preprocessor_config.json
+models/xgboost_*.json
+models/random_forest_*.json
 
 # Model Comparison Reports (generated files - can be regenerated)
 models/comparison_report.html
 models/model_comparison.json
 models/model_comparison.md
+models/*_comparison.*
 
 # Model Comparison Visualizations (generated files - can be regenerated)
 models/comparison_visualizations/
-models/comparison_visualizations/*.png
-models/comparison_visualizations/*.jpg
-models/comparison_visualizations/*.svg
+models/visualizations/
+models/*.png
+models/*.jpg
+models/*.svg
+models/*.pdf
 
 # Data Directories
 # Processed data (can be regenerated from raw data)
@@ -243,6 +252,7 @@ data/processed/
 data/processed/*.csv
 data/processed/*.parquet
 data/processed/*.feather
+data/processed/*.pkl
 
 # Data visualizations (can be regenerated)
 data/visualizations/
@@ -254,9 +264,16 @@ data/visualizations/*.pdf
 # Data insights (can be regenerated)
 data/insights/
 data/insights/*.json
+data/insights/*.txt
+data/insights/*.md
+
+# Temporary data files
+data/temp/
+data/tmp/
+data/*.tmp
 
 # Keep raw data in version control if it's small and doesn't contain sensitive info
-# Uncomment the following if your raw data is large or sensitive:
+# Uncomment the following if your raw data is large (>10MB) or contains sensitive info:
 # data/raw/
 # data/raw/*.csv
 
@@ -265,6 +282,7 @@ logs/
 logs/*.log
 logs/*.txt
 *.log
+*.log.*
 
 # Jupyter Notebooks
 # Notebook checkpoints (already covered above but being explicit)
@@ -283,6 +301,8 @@ notebooks/**/.ipynb_checkpoints/
 .Trashes
 ehthumbs.db
 Thumbs.db
+.AppleDouble
+.LSOverride
 
 # Temporary Files
 *.tmp
@@ -290,51 +310,73 @@ Thumbs.db
 *.swp
 *.swo
 *~
+.#*
 
 # IDE and Editor Files
 .vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
+*.code-workspace
 
-# Coverage Reports (HTML version - can be regenerated)
+# Coverage Reports (generated files - can be regenerated)
 # Now stored in reports/ directory
 reports/htmlcov/
 reports/.coverage
 reports/.coverage.*
 reports/coverage.xml
+reports/coverage.json
 reports/*.cover
+reports/*.html
+coverage.json
+.coverage
+.coverage.*
 
 # Pytest Cache
 .pytest_cache/
 .pytest_cache/**
+**/.pytest_cache/
 
 # Python Cache
 __pycache__/
 **/__pycache__/
 *.py[cod]
 *$py.class
+*.so
 
 # Virtual Environments (project-specific)
 crop-recommendation-env/
 venv/
 env/
+.venv/
 
 # Secrets and Environment Variables (CRITICAL - never commit these!)
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
 *.key
 *.pem
 *.p12
+*.pfx
+*.cer
+*.crt
 secrets/
 config/secrets.yaml
 config/credentials.json
+config/*.secret.*
+
+# API Keys and Tokens (CRITICAL - never commit these!)
+**/api_keys.json
+**/tokens.json
+**/.secrets/
 
 # Database Files (if any)
 *.db
 *.sqlite
 *.sqlite3
+*.db-journal
 
 # Large Files (anything over 100MB should not be in git)
 # Use Git LFS if you need to version control large files
@@ -343,3 +385,40 @@ config/credentials.json
 *.zip
 *.7z
 *.rar
+*.bz2
+*.gz
+*.xz
+
+# Node modules (if frontend dependencies are added)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# OS-specific files
+*.bak
+*.backup
+*~.nib
+local.properties
+
+# Performance profiling outputs
+*.prof
+*.lprof
+*.pyprof
+*.pstats
+
+# Memory profiling
+*.mprof
+*.memprof
+
+# Benchmark results
+benchmarks/results/
+benchmarks/*.json
+benchmarks/*.csv
