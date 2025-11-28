@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Crop Prediction - Crop Recommendation System{% endblock %}
+
+{% block content %}
+<section style="padding: var(--space-12) 0; min-height: 100vh;">
+    <div class="container">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h1 class="text-center text-gradient mb-8">Get Crop Recommendation</h1>
+
+            <!-- Prediction Form -->
+            <div class="card-glass">
+                <form id="prediction-form">
+                    <h3 style="margin-bottom: var(--space-6);">Soil Nutrients</h3>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6);">
+                        <div class="form-group">
+                            <label class="form-label" for="N">Nitrogen (N) *</label>
+                            <input type="number" step="0.01" id="N" name="N" class="input-field" required>
+                            <small style="color: var(--text-secondary);">0 - 140 kg/ha</small>
+                            <span class="error-message" id="N-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="P">Phosphorus (P) *</label>
+                            <input type="number" step="0.01" id="P" name="P" class="input-field" required>
+                            <small style="color: var(--text-secondary);">5 - 145 kg/ha</small>
+                            <span class="error-message" id="P-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="K">Potassium (K) *</label>
+                            <input type="number" step="0.01" id="K" name="K" class="input-field" required>
+                            <small style="color: var(--text-secondary);">5 - 205 kg/ha</small>
+                            <span class="error-message" id="K-error"></span>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: var(--space-6);">Environmental Conditions</h3>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6);">
+                        <div class="form-group">
+                            <label class="form-label" for="temperature">Temperature *</label>
+                            <input type="number" step="0.01" id="temperature" name="temperature" class="input-field"
+                                required>
+                            <small style="color: var(--text-secondary);">8.8 - 43.7 °C</small>
+                            <span class="error-message" id="temperature-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="humidity">Humidity *</label>
+                            <input type="number" step="0.01" id="humidity" name="humidity" class="input-field" required>
+                            <small style="color: var(--text-secondary);">14.3 - 99.9 %</small>
+                            <span class="error-message" id="humidity-error"></span>
+                        </div>
+                    </div>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8);">
+                        <div class="form-group">
+                            <label class="form-label" for="ph">pH Level *</label>
+                            <input type="number" step="0.01" id="ph" name="ph" class="input-field" required>
+                            <small style="color: var(--text-secondary);">3.5 - 9.9 pH</small>
+                            <span class="error-message" id="ph-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="rainfall">Rainfall *</label>
+                            <input type="number" step="0.01" id="rainfall" name="rainfall" class="input-field" required>
+                            <small style="color: var(--text-secondary);">20.2 - 298.6 mm</small>
+                            <span class="error-message" id="rainfall-error"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="submit-btn">
+                        Get Recommendation
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section (Hidden by default) -->
+            <div id="results-section" class="hidden" style="margin-top: var(--space-8);">
+                <div class="card-glass">
+                    <h2 class="text-center text-gradient mb-6">Recommended Crop</h2>
+                    <div style="text-align: center; margin-bottom: var(--space-6);">
+                        <div style="font-size: 4rem; margin-bottom: var(--space-4);">🌾</div>
+                        <h1 id="crop-name" style="color: var(--primary-green); margin-bottom: var(--space-4);"></h1>
+                        <div style="font-size: var(--text-2xl); color: var(--text-secondary);">
+                            Confidence: <span id="confidence"
+                                style="color: var(--primary-green); font-weight: var(--font-bold);"></span>
+                        </div>
+                    </div>
+
+                    <div id="alternatives-section" style="margin-top: var(--space-8);">
+                        <h3 class="text-center mb-6">Alternative Crops</h3>
+                        <div id="alternatives-list"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/form-validation.js') }}"></script>
+{% endblock %}

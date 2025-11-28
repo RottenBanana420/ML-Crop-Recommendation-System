@@ -8,3 +8,7 @@ flask
 joblib
 pytest
 pytest-cov
+flask-cors
+flask-limiter
+python-dotenv
+gunicorn

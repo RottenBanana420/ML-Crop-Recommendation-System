@@ -298,11 +298,12 @@ Thumbs.db
 *.sublime-workspace
 
 # Coverage Reports (HTML version - can be regenerated)
-htmlcov/
-.coverage
-.coverage.*
-coverage.xml
-*.cover
+# Now stored in reports/ directory
+reports/htmlcov/
+reports/.coverage
+reports/.coverage.*
+reports/coverage.xml
+reports/*.cover
 
 # Pytest Cache
 .pytest_cache/
@@ -318,9 +319,6 @@ __pycache__/
 crop-recommendation-env/
 venv/
 env/
-
-# Temporary README Update Summary (remove after review)
-README_UPDATE_SUMMARY.md
 
 # Secrets and Environment Variables (CRITICAL - never commit these!)
 .env
@@ -345,5 +343,3 @@ config/credentials.json
 *.zip
 *.7z
 *.rar
-cleanup_git_tracked_files.sh
-GITIGNORE_UPDATE_SUMMARY.md

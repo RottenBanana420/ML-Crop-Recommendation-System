@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Crop Recommendation System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section
+    style="min-height: 80vh; display: flex; align-items: center; background: var(--gradient-hero); position: relative;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.3));">
+    </div>
+    <div class="container" style="position: relative; z-index: 1;">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h1 class="fade-in-up" style="color: white; margin-bottom: var(--space-6);">
+                Grow Smarter with AI-Powered Crop Recommendations
+            </h1>
+            <p style="font-size: var(--text-xl); color: rgba(255,255,255,0.9); margin-bottom: var(--space-8);">
+                Analyze soil nutrients and environmental conditions to get instant, data-driven crop suggestions with {{
+                "%.1f"|format(stats.accuracy) }}% accuracy
+            </p>
+            <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+                <a href="{{ url_for('prediction.predict_page') }}" class="btn btn-primary glow-pulse">
+                    Get Crop Recommendation
+                </a>
+                <a href="{{ url_for('performance.performance_page') }}" class="btn btn-secondary">
+                    View Model Performance
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-top: var(--space-12);">
+            <div class="stat-card float" style="animation-delay: 0s;">
+                <div class="stat-value">{{ "%.1f"|format(stats.accuracy) }}%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card float" style="animation-delay: 0.2s;">
+                <div class="stat-value">{{ stats.crop_types }}</div>
+                <div class="stat-label">Crop Types</div>
+            </div>
+            <div class="stat-card float" style="animation-delay: 0.4s;">
+                <div class="stat-value">{{ "%.1f"|format(stats.prediction_speed) }}ms</div>
+                <div class="stat-label">Prediction Speed</div>
+            </div>
+            <div class="stat-card float" style="animation-delay: 0.6s;">
+                <div class="stat-value">{{ stats.tests_passed }}</div>
+                <div class="stat-label">Tests Passed</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section style="padding: var(--space-16) 0;">
+    <div class="container">
+        <h2 class="text-center text-gradient mb-8">Why Choose Our System?</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
+            <div class="card-glass">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">🎯</div>
+                <h3>High Accuracy</h3>
+                <p>{{ "%.1f"|format(stats.accuracy) }}% accuracy with Random Forest model trained on comprehensive
+                    agricultural data.</p>
+            </div>
+            <div class="card-glass">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Get predictions in under 10ms with optimized model inference and caching.</p>
+            </div>
+            <div class="card-glass">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">🧪</div>
+                <h3>Scientifically Validated</h3>
+                <p>Based on soil nutrients (N, P, K) and environmental data with rigorous testing.</p>
+            </div>
+            <div class="card-glass">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">📊</div>
+                <h3>Data-Driven Insights</h3>
+                <p>Comprehensive analysis with visualizations and confidence scores for each prediction.</p>
+            </div>
+            <div class="card-glass">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">🌱</div>
+                <h3>{{ stats.crop_types }} Crop Types</h3>
+                <p>From rice to watermelon, we've got you covered with diverse crop recommendations.</p>
+            </div>
+            <div class="card-glass">
+                <div style="font-size: 3rem; margin-bottom: var(--space-4);">🔬</div>
+                <h3>Rigorously Tested</h3>
+                <p>{{ stats.tests_passed }} tests ensure reliability and consistent performance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section style="padding: var(--space-16) 0; background: var(--bg-card);">
+    <div class="container text-center">
+        <h2 class="text-gradient mb-6">Ready to Get Started?</h2>
+        <p style="font-size: var(--text-lg); max-width: 600px; margin: 0 auto var(--space-8);">
+            Enter your soil and environmental data to receive instant crop recommendations powered by machine learning.
+        </p>
+        <a href="{{ url_for('prediction.predict_page') }}" class="btn btn-primary">
+            Start Predicting Now
+        </a>
+    </div>
+</section>
+{% endblock %}

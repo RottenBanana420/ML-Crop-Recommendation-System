@@ -23,6 +23,8 @@ from scipy import stats
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings('ignore')
+# Suppress specific matplotlib/seaborn warning about 'vert' argument
+warnings.filterwarnings('ignore', message='vert: bool will be deprecated', category=PendingDeprecationWarning)
 
 # Set visualization style
 sns.set_style("whitegrid")
@@ -340,11 +342,10 @@ class CropEDA:
             ax = axes[idx]
             
             # Box plot
-            bp = ax.boxplot(self.data[feature], vert=True, patch_artist=True,
-                           boxprops=dict(facecolor='lightblue', alpha=0.7),
-                           medianprops=dict(color='red', linewidth=2),
-                           whiskerprops=dict(color='blue', linewidth=1.5),
-                           capprops=dict(color='blue', linewidth=1.5))
+            sns.boxplot(y=self.data[feature], ax=ax, color='lightblue',
+                       medianprops=dict(color='red', linewidth=2),
+                       whiskerprops=dict(color='blue', linewidth=1.5),
+                       capprops=dict(color='blue', linewidth=1.5))
             
             ax.set_ylabel(feature, fontsize=11, fontweight='bold')
             ax.set_title(f'Box Plot: {feature}', fontsize=12, fontweight='bold')
@@ -394,7 +395,8 @@ class CropEDA:
         
         crop_counts = self.data[self.target_column].value_counts().sort_values(ascending=False)
         
-        ax = sns.barplot(x=crop_counts.index, y=crop_counts.values, palette='viridis')
+        ax = sns.barplot(x=crop_counts.index, y=crop_counts.values, 
+                        hue=crop_counts.index, palette='viridis', legend=False)
         ax.set_xlabel('Crop Type', fontsize=12, fontweight='bold')
         ax.set_ylabel('Count', fontsize=12, fontweight='bold')
         ax.set_title('Distribution of Crop Labels', fontsize=14, fontweight='bold', pad=20)
@@ -431,7 +433,8 @@ class CropEDA:
             
             # Violin plot
             sns.violinplot(data=self.data, y=self.target_column, x=feature, 
-                          ax=ax, palette='Set2', orient='h')
+                          hue=self.target_column, ax=ax, palette='Set2', 
+                          orient='h', legend=False)
             
             ax.set_xlabel(feature, fontsize=11, fontweight='bold')
             ax.set_ylabel('Crop Type', fontsize=11, fontweight='bold')
